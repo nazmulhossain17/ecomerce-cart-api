@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const productRoute = require('./src/routes/product.route')
 const userRoute = require('./src/routes/user.route')
 require('dotenv').config();
@@ -8,7 +9,16 @@ const app = express();
 const port = 3000;
 
 app.use(express.json());
-
+const corsOptions = {
+    origin: "https://exomerce-cart.web.app",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+    credentials: true,
+  };
+  
+app.use(cors(corsOptions));
+app.use(cookieParser());
 // Test Route
 app.get("/", (req, res) => {
     res.send("Hello World");
@@ -17,7 +27,7 @@ app.get("/", (req, res) => {
 // API Routes
 app.use('/api/users', userRoute);
 app.use('/api/products', productRoute);
-app.use(cookieParser());
+
 
 // Start Server
 app.listen(port, () => {

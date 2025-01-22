@@ -57,6 +57,22 @@ const loginUser = async (req, res) => {
   }
 };
 
+const logoutUser = (req, res) => {
+    try {
+        // Clear the token from the cookie
+        res.clearCookie('token', {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+        });
+
+        res.json({ message: 'Logout successful' });
+    } catch (err) {
+        console.error('Error during logout:', err);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
 
 // Update User Profile
 const updateUserProfile = async (req, res) => {
@@ -73,4 +89,4 @@ const updateUserProfile = async (req, res) => {
     }
 };
 
-module.exports = { registerUser, loginUser, updateUserProfile };
+module.exports = { registerUser, loginUser, logoutUser, updateUserProfile };

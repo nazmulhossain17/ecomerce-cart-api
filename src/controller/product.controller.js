@@ -11,6 +11,22 @@ const getAllProducts = async (req, res) => {
     }
 };
 
+const getProductById = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const product = await db('products').where({ id }).first();
+        
+        if (product) {
+            res.json(product);
+        } else {
+            res.status(404).json({ error: 'Product not found' });
+        }
+    } catch (err) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
 // Create Product
 const createProduct = async (req, res) => {
     const { name, description, price, quantity, imageUrl } = req.body;
@@ -63,4 +79,4 @@ const deleteProduct = async (req, res) => {
 };
 
 
-module.exports = { getAllProducts, createProduct, deleteProduct, updateProduct };
+module.exports = { getAllProducts, getProductById, createProduct, deleteProduct, updateProduct };
