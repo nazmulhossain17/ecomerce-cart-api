@@ -7,7 +7,7 @@ const cookieParser = require('cookie-parser');
 
 const app = express();
 const port = 3000;
-
+// cors
 app.use(express.json());
 const corsOptions = {
     origin: "https://exomerce-cart.web.app",
